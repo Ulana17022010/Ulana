@@ -1,24 +1,11 @@
-class Student:
-    def __init__(self, name=None,height=190):
-       self.name = name
-       self.height = height
+def greet_teacher(name,subject):
+    greeting = f"Шановна {name},\n\n" \
+               f"Від імені стументів висловляємо Вам нашу щиру вдячність за працю та натхненн." \
+               f"Ваші знання з предмету {subject} надихають нас на нові досягнення та розвиток." \
+               f"Дякуємо за вашу терпеливість,підтримку та готовність ділитися досвідом." \
+               f"З найкращими побажаннями,\nВаші студенти."
+    return greeting
 
-    def __str__(self):
-        return f'I an a student and my name is {self.name}'
-
-
-    def __bool__(self):
-        return self.name != None
-
-
-    def __len__(self):
-        return self.height
-
-    def __del__(self):
-        print("I an deleted")
-
-first_student = Student(name="Nick")
-print(first_student.__len__())
-print(first_student.__bool__())
-print(first_student)
-
+teacher_name = "Палій Іванна Іванівна"
+subject = "Програмування Python"
+print(greet_teacher(teacher_name,subject))
