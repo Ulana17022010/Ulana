@@ -1,201 +1,79 @@
-import random
+class Task:
  
+    def __init__(self,title,description,deadline,completed=True):
+        self.title=title
+        self.description=description
+        self.deadline=deadline
+        self.completed=completed
  
-class Human:
+    def __int__(self):
+        status = "Зроблено" if self.completed else "Не зроблено"
  
-    def __init__(self, name="Human", job=None, home="None", car="None"):
-        self.name = name
-        self.job = job
-        self.car = car
-        self.home = home
-        self.money = 100
-        self.gladness = 50
-        self.satiety = 50
+class TaskManager:
  
-    def get_home(self):
-        self.home = House()
+    def __init__(self,task):
+        add_task(task)
+        self.tasks.append(task)
+        print(f"Завдання '{task.title}' додано.")
  
-    def get_car(self):
-        self.car = Auto(brands_of_car)
- 
-    def get_job(self):
-        if self.car.drive():
-            pass
-        else:
-            self.to_repair()
+    def delete_task(self,task_title):
+        for task in self.task:
+            self.tasks.remove(task)
+            print(f"Завдання '{task_title}' видалено.")
             return
-        self.job = Job(jobs_list)
+        print(f"Завдання '{task_title}' не знайдено.")
  
-    def eat(self):
-        if self.home.food <= 0:
-            self.shopping("food")
-        else:
-            if self.satiety  >= 100:
-                self.satiety = 100
-                return
-            self.satiety += 5
-            self.home.food -= 5
+    def  mark_task_completed(task_title):
+        for task in self.task:
+            if task.title == task_title:
+             task.completed = True
+            print(f"Завдання '{task_title}' позначено як виконане.")
+            return
+            print(f"Завдання  '{task_title}' не знайдено.")
  
-    def work(self):
-        if self.car.drive():
-            pass
-        else:
-            if self.car.fuel < 20:
-                self.shopping("fuel")
-                return
+    def show_tasks(self):
+        if not self.task:
+            print("Список завдань порожній")
+            return
+        for i, task in enumerate(self.tast,1):
+            print(f"{1}. {task}")
+ 
+    def menu():
+ 
+        while True:
+            print("\n Меню:")
+            print("1 Додати завдання")
+            print("2 Видалити завдання")
+            print("3 Позначити завдання як виконане")
+            print("4 Переглянути всі завдання")
+            print("5 Вийти")
+ 
+            choice = input(" Виберіть дію (1-5): ")
+ 
+            if choice == "1":
+                title = input(" Введіть назву завдання: ")
+                description = input(" Введіть опис завдання: ")
+                deadline = input(" Введіть дедлайн (дата): ")
+                task = Task(title, description, deadline)
+                manager.add_task(task)
+ 
+            elif choice == "2":
+                title = input(" Введіть назву завдання для видалення: ")
+                manager.delete_task(title)
+ 
+            elif choice == "3":
+                title = input(" Введіть назву завдання для позначення як виконане: ")
+                manager.mark_task_completed(title)
+ 
+            elif choice == "4":
+                manager.show_tasks()
+ 
+            elif choice == "5":
+                print("До побачення!")
+                break
+ 
             else:
-                self.to_repair()
-                return
-        self.money += self.job.salary
-        self.gladness -= self.job.gladness_less
-        self.satiety -= 4
- 
-    def shopping(self, manage):
-        if self.car.drive():
-            pass
-        else:
-            if self.car.fuel < 20:
-                manage = "fuel"
-            else:
-                self.to_repair()
-                return
-        if manage == "fuel":
-            print("I bought fuel")
-            self.money -= 100
-            self.car.fuel += 100
-        elif manage == "food":
-            print("I bought food")
-            self.money -= 50
-            self.home.food += 50
-        elif manage == "delicacies":
-            print("Hooray! Delicious!")
-            self.gladness += 10
-            self.satiety += 2
-            self.money -= 15
- 
-    def chill(self):
-        self.gladness += 10
-        self.home.mess += 5
- 
-    def clean_house(self):
-        self.gladness -= 5
-        self.home.mess = 0
- 
-    def to_repair(self):
-        self.car.strength += 100
-        self.money -= 50
- 
-    def days_indexes(self, day):
-        day = f" Today the {day} of {self.name}'s life"
-        print(f"{day:=^50}", "\n")
-        human_indexes = self.name + "'s indexes"
-        print(f"{human_indexes:^50}", "\n")
-        print(f"Money - {self.money}")
-        print(f"Satiety - {self.satiety}")
-        print(f"Gladness - {self.gladness}")
-        home_indexes = "Home indexes"
-        print(f"{home_indexes:^50}", "\n")
-        print(f"Food - {self.home.food}")
-        print(f"Mess - {self.home.mess}")
-        car_indexes = "Car indexes"
-        print(f"{car_indexes:^50}", "\n")
-        print(f"Fuel - {self.car.fuel}")
-        print(f"Strength - {self.car.strength}")
- 
-    def is_alive(self):
-        if self.gladness < 0:
-            print("Depression...")
-            return False
-        if self.satiety < 0:
-            print("Dead...")
-            return False
-        if self.money < -500:
-            print("Bankrut...")
-            return False
- 
-    def live(self, day):
-        if self.is_alive() == False:
-            return False
-        if self.home is None:
-            print("Settled in the house")
-            self.get_home()
-        if self.car is None:
-            self.get_car()
-            print(f"I bought car {self.car.brand}")
-        if self.job is None:
-            self.get_job()
-            print(f"I don't have a job, going to ged a job {self.job.job} with salary {self.job.salary}")
-        self.days_indexes(day)
-        dice = random.randint(1,4)
-        if self.satiety < 20:
-            print("I'll go eat")
-            self.eat()
-        elif self.gladness < 20:
-            if self.home.mess > 15:
-                print("I want to chill, but there is so much mess \n So I will clean my house")
-                self.clean_house()
-            else:
-                print("Let's chill")
-                self.chill()
-        elif self.money < 0:
-            print("Start work")
-            self.work()
-        elif self.car.strength < 15:
-            self.to_repair()
-            print("I need to repair my car")
-        elif dice == 1:
-            print("Let's chill")
-            self.chill()
-        elif dice == 2:
-            print("Start work")
-            self.work()
-        elif dice == 3:
-            print("Let`s clean")
-            self.clean_house()
-        elif dice == 4:
-            print("Let`s go to shopping")
-            self.shopping(manage="delicacies")
- 
- 
-class Auto:
-    def __init__(self, brand_list):
-        self.brand = random.choice(list(brand_list))
-        self.fuel = brand_list[self.brand]["fuel"]
-        self.strength = brand_list[self.brand]["strength"]
-        self.consumption = brand_list[self.brand]["consumption"]
- 
-    def drive(self):
-        if self.strength > 0 and self.fuel >= self.consumption:
-            self.fuel -= self.consumption
-            self.strength -= 1
-        else:
-            print("The car cannot move")
-            return False
- 
- 
-class House:
-    def __init__(self):
-        self.mess = 0
-        self.food = 0
- 
- 
-class Job:
-    def __init__(self, jobs_list):
-        self.job = random.choice(list(jobs_list))
-        self.gladness_less = jobs_list[self.job]["gladness_less"]
-        self.salary = jobs_list[self.job]["salary"]
- 
- 
-brands_of_car = {
-    "BMW": {"fuel": 100, "strength": 100, "consumption": 6},
-    "Lada": {"fuel": 50, "strength": 40, "consumption": 10},
-    "Volvo": {"fuel": 70, "strength": 150, "consumption": 8},
-    "Ferrari": {"fuel": 80, "strength": 120, "consumption": 14},
-}
- 
-jobs_list = {
-    "Java Developer": {"salary": 50, "gladness_less": 10},
-    "Python Developer": {"salary": 40, "gladness_less": 3},
-    "C++ Developer": {"salary": 45, "gladness_less": 25},
-    "Rust Developer": {"salary": 70, "gladness_less": 1},
-}
+                print(" Невірний вибір, спробуйте ще раз!")
+        if __init__ == "__menu__":
+menu()
+manager = TaskManager()
